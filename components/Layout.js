@@ -5,7 +5,7 @@ export default function Layout({ title, children }) {
   return (
     <>
       <Head>
-        <title>{title ? title + -"Ecommerce" : "Ecommerce"}</title>
+        <title>{title ? title + "- Ecommerce" : "Ecommerce"}</title>
         <meta name="description" content="Ecommerce" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
