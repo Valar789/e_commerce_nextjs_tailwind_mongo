@@ -1,17 +1,37 @@
 import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import data from "../../utils/data";
 import Link from "next/link";
 import Image from "next/image";
+import { Store } from "../../utils/Store";
+
+
 
 export default function ProductScreen() {
+  const { state, dispatch } = useContext(Store);
+  const router = useRouter()
+
   const { query } = useRouter();
   const { slug } = query;
   const product = data.products.find((x) => x.slug === slug);
+
   if (!product) {
-    return <div>Product No Found</div>;
+    return <Layout title="Product not found">Product No Found</Layout>;
   }
+
+  const addToCartHandler = () => {
+    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    // const { data } = await axios.get(`/api/products/${product._id}`);
+
+    if (product.countInStock < quantity) {
+      return alert("Sorry. Product is out of stock");
+    }
+    dispatch({ type: "CART_ADD_ITEM", payload: { ...product, quantity } });
+    router.push('/')
+
+  };
 
   return (
     <Layout title={product.name}>
@@ -19,7 +39,7 @@ export default function ProductScreen() {
         <h1>{product.name}</h1>
         <Link href="/">Back to products</Link>
       </div>
-      <div class="grid md:grid-cols-4 md:gap-3">
+      <div className="grid md:grid-cols-4 md:gap-3">
         <div className="md:col-span-2">
           <Image
             src={product.image}
@@ -48,10 +68,15 @@ export default function ProductScreen() {
               <div>{product.price}</div>
             </div>
             <div className="mb-2 flex justify-between">
-                <div>Status</div>
-                <div>{product.countInStock > 0 ? 'In Stock': 'Unavaible'}</div>
+              <div>Status</div>
+              <div>{product.countInStock > 0 ? "In Stock" : "Unavaible"}</div>
             </div>
-            <button className="primary-button w-full">Add to Cart</button>
+            <button
+              className="primary-button w-full"
+              onClick={addToCartHandler}
+            >
+              Add to Cart
+            </button>
           </div>
         </div>
       </div>
