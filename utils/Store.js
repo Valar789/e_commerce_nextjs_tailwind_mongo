@@ -1,12 +1,12 @@
 const { createContext, useReducer } = require("react");
+import Cookies from 'js-cookie';
 
 export const Store = createContext(); //1. Creo un contexto de nombre Store
 
 const initialState = {
   //2. Creo el initialState
-  cart: {
-    cartItems: [],
-  },
+  cart: Cookies.get('cart') ? JSON.parse(Cookies.get('cart')):
+  {cartItems: []}
 };
 
 function reducer(state, action) {
@@ -24,13 +24,14 @@ function reducer(state, action) {
             item.name === existItem.name ? newItem : item //y si item.name es exactamente igual a existItem.name que guarde newItem caso contrario solo item
           )
         : [...state.cart.cartItems, newItem]; //en caso de que no exista, que me traiga lo que tiene en cartItems del estado y le agregue el newItem
-
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }))
       return { ...state, cart: { ...state.cart, cartItems } }; // y lo que retorna es el estado, mas carItems
     }
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item)=> item.slug !== action.payload.slug
       )
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }))
       return {...state, cart: {...state.cart, cartItems}}
     }
     default:
