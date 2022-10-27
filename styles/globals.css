@@ -9,6 +9,9 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
+a {
+  @apply text-blue-600 hover:text-blue-800;
+}
 
 .card{
   @apply mb-5 block rounded-lg border border-gray-200 shadow-md
@@ -22,4 +25,9 @@ input,
 select,
 textarea{
   @apply rounded border p-2 outline-none ring-indigo-300 focus:ring;
+
+}
+
+.dropdown-link {
+  @apply flex p-2 hover:bg-gray-200;
 }
