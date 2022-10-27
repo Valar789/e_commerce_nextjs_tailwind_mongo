@@ -6,7 +6,7 @@ export const Store = createContext(); //1. Creo un contexto de nombre Store
 const initialState = {
   //2. Creo el initialState
   cart: Cookies.get('cart') ? JSON.parse(Cookies.get('cart')):
-  {cartItems: []}
+  {cartItems: [], shippingAddress: {}},
 };
 
 function reducer(state, action) {
@@ -43,6 +43,17 @@ function reducer(state, action) {
           paymentMethod: '',
         },
       };
+      case 'SAVE_SHIPPING_ADDRESS':
+        return {
+          ...state,
+          cart: {
+            ...state.cart,
+            shippingAddress: {
+              ...state.cart.shippingAddress,
+              ...action.payload,
+            },
+          },
+        };
     default:
       return state; //siempre retorn algo en este caso state
   }
