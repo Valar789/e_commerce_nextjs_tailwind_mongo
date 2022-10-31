@@ -57,17 +57,17 @@ export default function Layout({ title, children }) {
                   </Menu.Button>
                   <Menu.Items className="absolute  right-0 w-56 origin-top-right bg-white  shadow-lg ">
                     <Menu.Item>
-                      <a className="dropdown-link" href="/profile">
+                      <Link className="dropdown-link" href="/profile">
                         Profile
-                      </a>
+                      </Link>
                     </Menu.Item>
                     <Menu.Item>
-                      <a
+                      <Link
                         className="dropdown-link"
                         href="/order-history"
                       >
                         Order History
-                      </a>
+                      </Link>
                     </Menu.Item>
                     <Menu.Item>
                       <a
